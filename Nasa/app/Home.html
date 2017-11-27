@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html ng-app="nasaApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nasa App</title>
+    <link rel="icon" type="image" href="fav.ico">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-cloak>
+<nav  class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="Home.html">Home</a></li>
+    </ul>
+    </div>
+</nav>
+<div class="container" ng-controller="LocationController">
+    <div class="row">
+        <form class="form-inline">
+<div class="col-md-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Address</div>
+        <div class="panel-body">
+    <div class="form-group">
+        <label for="frmPostcode" class="control-label">Postcode</label>
+        <input class="form-control" id="frmPostcode" placeholder="Enter your postcode..." ng-model="address.postcode" required>
+    </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success"  ng-click="getLatLong()">Find lat/long</button>
+        </div>
+            </div>
+</div>
+
+
+</div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Coordination</div>
+            <div class="panel-body">
+                <label for="frmLatitude" class="control-label">Latitude</label> <input class="form-control" id="frmLatitude" ng-model="address.lat">
+            </div>
+            <div class="panel-body">
+                <label for="frmLongitude" class="control-label">Longitude</label> <input class="form-control" id="frmLongitude" ng-model="address.lon">
+            </div>
+        </div>
+    </div>
+                <div class="row" nd-show="errorMessage">
+                    {{errorMessage}}
+                </div>
+
+    </form>
+
+</div>
+    </div>
+<div class="container" ng-controller="NasaImagesController" ng-init="">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+            <button type="submit" class="btn btn-info btn-lg" ng-click="getDates()">List of Images from Nasa</button>
+                </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+<div ng-show="isBusy"><span class='glyphicon-left glyphicon glyphicon-refresh spinning'></span>Loading ...</div>
+        <div class="list-group">
+            <ul class="list-group">
+            <li class="list-group-item" ng-repeat="date in filteredDates| orderBy:'-'  ">
+                <a ng-click="displayImage(date)">
+                    {{date | date : 'yyyy MMM dd'}}
+                </a>
+            </li>
+            </ul>
+            <pagination ng-show="dates.length"
+                    ng-model="currentPage"
+                    total-items="dates.length"
+                    max-size="maxSize"
+                    boundary-links="true">
+            </pagination>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div ng-show="isLoadingImage"><span class='glyphicon-left glyphicon glyphicon-refresh spinning'></span>Loading ...</div>
+        <img ng-show="imageUrl" ng-src="{{imageUrl}}">
+    </div>
+</div>
+        </div>
+<script src="lib/jQuery/jquery.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/AngularJS/angular.min.js"></script>
+<script src="lib/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<script src="ApiKeys.js"></script>
+<script src="js/app.js"></script>
+<script src="js/LocationController.js"></script>
+<script src="js/NasaImagesController.js"></script>
+
+</body>
+</html>
